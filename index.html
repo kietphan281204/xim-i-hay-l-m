@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id="titleWeb"></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/mystyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            cursor: pointer; /* Gợi ý người dùng có thể click */
+        }
+
+        /* Thêm hiệu ứng nhẹ để người dùng biết cần chạm vào */
+        #hint {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgb(97, 24, 214);
+            font-size: 1.5em;
+            font-family: 'Segoe UI', sans-serif;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            animation: blink 1.2s infinite;
+            z-index: 100;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Gợi ý bấm -->
+    <div id="hint">Bấm vô rồi dữ</div>
+
+    <!-- NỘI DUNG GỐC -->
+    <div class="box">
+        <ul class="minbox">
+            <li id="min1"></li>
+            <li id="min2"></li>
+            <li id="min3"></li>
+            <li id="min4"></li>
+            <li id="min5"></li>
+            <li id="min6"></li>
+        </ul>
+        <ol class="maxbox">
+            <li id="max1"></li>
+            <li id="max2"></li>
+            <li id="max3"></li>
+            <li id="max4"></li>
+            <li id="max5"></li>
+            <li id="max6"></li>
+        </ol>
+    </div>
+
+    <!-- Âm thanh -->
+    <audio id="player" loop>
+        <source src="NHAC2.mp3" type="audio/mp3">
+    </audio>
+
+    <script src="./config.js"></script>
+    <script src="./js/main.js"></script>
+
+    <script>
+        const audio = document.getElementById('player');
+        const hint = document.getElementById('hint');
+        let musicStarted = false;
+
+        // Khi người dùng bấm hoặc chạm vào màn hình -> phát nhạc
+        document.body.addEventListener('click', () => {
+            if (!musicStarted) {
+                audio.play().then(() => {
+                    hint.style.display = 'none'; // Ẩn gợi ý
+                    musicStarted = true;
+                }).catch(err => {
+                    console.error('Không thể phát nhạc:', err);
+                });
+            }
+        });
+
+        // Hỗ trợ cho cả màn hình cảm ứng
+        document.body.addEventListener('touchstart', () => {
+            if (!musicStarted) {
+                audio.play().then(() => {
+                    hint.style.display = 'none';
+                    musicStarted = true;
+                }).catch(err => {
+                    console.error('Không thể phát nhạc:', err);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
